@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
 
-import Login from './Component/Login/login'
+
+
+import Tab from './Component/Tab/Tab'
 
 class App extends Component {
-  
-
   
   render() {
     return (
       <div>
-        <h1>Please Login</h1>
-        <Login />
+        
+        <Tab />
       </div>
     );
   }

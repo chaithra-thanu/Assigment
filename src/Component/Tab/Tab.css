@@ -1,0 +1,11 @@
+.Tab{
+    text-align: center;
+}
+.list{
+    display: flex;
+    justify-content: space-evenly;
+   list-style: none;
+   color: chocolate;
+   font-size: 20px;
+   cursor: pointer;
+}
