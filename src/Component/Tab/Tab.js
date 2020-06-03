@@ -8,9 +8,11 @@ import classes from './Tab.css';
 class tab extends Component {
     state = {
         posts: [],
-        checked: true,
-        
+        favorites: [],
+        showFavorites: false,
+        tabIndex: 0
     }
+
     componentDidMount() {
         axios.get("https://assignment-machstatz.herokuapp.com/planet")
             .then(response => {
@@ -19,56 +21,57 @@ class tab extends Component {
             });
     }
 
-    checkedHandler = () => {
-        const check = this.state.checked;
-        this.setState({checked: !check});
+    addToFavorites = (post) => {
+        let fav = this.state.favorites;
+        if(fav.includes(post)){ 
+
+        }
+        else{
+            fav.push(post);
+            this.setState({favorites: fav})
+        }
     }
 
     render() {
-
         const posts = this.state.posts.map(post => {
             return (
-                <div>
-                        <div>
-                            <input type="checkbox" defaultChecked={this.checkedHandler} /><label>{post.name}</label>
-                            {/* <button onClick={this.checkedHandler}>{post.name}</button> */}
-                        </div>
+                <div key={post.id} style={{ width: '200px', height: '100px' }}>
+                    <div>
+                    {post.name}
+                    </div>
+                    <div>   
+                        <button onClick={() => this.addToFavorites(post)}>Add to Favorites</button>
+                    </div>
                 </div>
             );
-        });
+        })
+        const favorites = this.state.favorites.map(post => {
+            return (
+                <div key={post.id} style={{ width: '200px', height: '100px' }}>
+                    <div>
+                        {post.name}
+                    </div>
+                </div>
+                );
+        })
 
-       let  show = null;
-
-            if (this.state.checked){
-               show = (
-                   <div>
-                       {posts}
-                   </div>
-               );
-            }
-            else {
-                null
-            }
-       
-        // this.checkedHandler === true ? {posts} : null;
-       
-
-        const displayTab = (
-            <Tabs>
+        return (
+            <Tabs selectedIndex={this.state.tabIndex} onSelect={tabIndex => this.setState({ tabIndex })}>
                 <TabList className={classes.list}>
                     <Tab>Planet</Tab>
                     <Tab>Favorite </Tab>
                 </TabList>
-                <TabPanel>{posts}</TabPanel>
-                <TabPanel></TabPanel>
+                <TabPanel>
+                    <div style={{ display: 'flex', flexWrap: 'wrap', width: '100%' }}>
+                       {posts}
+                    </div>
+                </TabPanel>
+                <TabPanel>
+                    <div style={{ display: 'flex', flexWrap: 'wrap', width: '100%' }}>
+                       {favorites}
+                    </div>
+                </TabPanel>
             </Tabs>
-        );
-        return (
-            <div className={classes.Tab}>
-                {displayTab}
-                
-            </div>
-
         );
     }
 }
